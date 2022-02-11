@@ -1,0 +1,7 @@
+---
+- name: 'processing | authorized_keys | deploy ssh authorized_keys for user {{ user_name }}'
+  ansible.posix.authorized_key:
+    user: "{{ user_name }}"
+    state: present
+    key: "{{ user_list[user_name]['ssh_keys'] | join('\n') }}"
+    exclusive: true

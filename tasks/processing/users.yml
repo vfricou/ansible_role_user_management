@@ -1,0 +1,82 @@
+---
+- name: 'INCLUDE => ensure declared groups for user {{ user_name }} exists'
+  ansible.builtin.include_tasks: group_validation.yml
+  with_items:
+    - "{{ user_list[user_name]['groups'] }}"
+  when: "user_list[user_name]['groups'] is defined"
+  loop_control:
+    loop_var: group_item
+
+#- name: 'process_user | {{ user_name }} | create user with plain password'
+#  ansible.builtin.debug:
+#    msg: |
+#      'User Name : {{ user_name }}'
+#      'Shell : {{ user_list[user_name]["shell"] }}'
+#      'Password : {{ user_list[user_name]["pass"] }}'
+#      'SSH Keys : {{ user_list[user_name]["ssh_keys"] }}'
+#  when:
+#    - user_list[user_name]["pass_type"] == 'plain'
+#
+#- name: 'process_user | {{ user_name }} | create user with encrypted password'
+#  ansible.builtin.debug:
+#    msg: |
+#      'User Name : {{ user_name }}'
+#      'Shell : {{ user_list[user_name]["shell"] }}'
+#      'Password : {{ user_list[user_name]["pass"] }}'
+#      'SSH Keys : {{ user_list[user_name]["ssh_keys"] }}'
+#  when:
+#    - user_list[user_name]["pass_type"] != 'plain'
+
+#- name: 'process_user | {{ user_name }} | create user with plain password'
+#  ansible.builtin.user:
+#    name: '{{ user_name }}'
+#    update_password: always
+#    password: "{{ user_list[user_name]["pass"] | password_hash('sha512') }}"
+
+- name: 'processing | users | manage {{ user_name }} account with plain password'
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    comment: "{{ user_list[user_name]['comment'] }}"
+    createhome: true
+    home: "{{ user_list[user_name]['home'] }}"
+    shell: "{{ user_list[user_name]['shell'] }}"
+    state: "{{ user_list[user_name]['state'] }}"
+    password: "{{ user_list[user_name]['pass'] | password_hash('sha512') }}"
+    update_password: always
+  when:
+    - user_list[user_name]['pass_type'] == 'plain'
+
+- name: 'processing | users | manage {{ user_name }} account with encrypted password'
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    comment: "{{ user_list[user_name]['comment'] }}"
+    createhome: true
+    home: "{{ user_list[user_name]['home'] }}"
+    shell: "{{ user_list[user_name]['shell'] }}"
+    state: "{{ user_list[user_name]['state'] }}"
+    password: "{{ user_list[user_name]['pass'] }}"
+    update_password: always
+  when:
+    - user_list[user_name]['pass_type'] != 'plain'
+
+#groups: "{{ user_list[user_name]['groups'] }}"
+
+- name: 'processing | users | add {{ user_name }} to defined groups'
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    groups: "{{ user_list[user_name]['groups'] }}"
+  when:
+    - "user_list[user_name]['groups'] is defined"
+    - "user_list[user_name]['state'] == 'present'"
+
+- name: 'processing | users | remove home directory if user is removed'
+  ansible.builtin.file:
+    path: "{{ user_list[user_name]['home'] }}"
+    state: absent
+  when: "user_list[user_name]['state'] == 'absent'"
+
+- name: 'import ssh keys management'
+  ansible.builtin.include_tasks: authorized_keys.yml
+  when:
+    - "user_list[user_name]['ssh_keys'] is defined"
+    - "user_list[user_name]['state'] == 'present'"

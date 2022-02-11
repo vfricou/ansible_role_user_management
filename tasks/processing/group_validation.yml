@@ -1,0 +1,5 @@
+---
+- name: 'processing | group_validation | ensure group {{ group_item }} is present'
+  ansible.builtin.group:
+    name: '{{ group_item }}'
+    state: present
