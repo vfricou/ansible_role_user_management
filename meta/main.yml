@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: "user_management"
+  author: "Vincent FRICOU"
+  namespace: "vfricou"
+  description: 'Manage user on remote system'
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - impish
+    - name: Rocky
+      versions:
+        - 8
+dependencies: []
