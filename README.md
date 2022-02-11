@@ -30,6 +30,10 @@ Feel free to fork and update this according to your requirements.
 **RHEL** :
 - 8
 
+# Variables
+
+Read content of [defaults variables](./defaults/main.yml) to get configurables variables
+
 # Requirements
 
 ## On target OS
