@@ -1,0 +1,11 @@
+---
+- name: 'processing | user_creation | manage user {{ user.key }}'
+  ansible.builtin.user:
+    name: "{{ user.key }}"
+    comment: "{{ user['value']['comment'] }}"
+    createhome: true
+    home: "{{ user['value']['home'] }}"
+    shell: "{{ user['value']['shell'] }}"
+    state: "{{ user['value']['state'] }}"
+    password: "{{ passwd }}"
+    update_password: always

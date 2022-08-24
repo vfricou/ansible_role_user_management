@@ -2,11 +2,6 @@
 - name: 'import validator tasks'
   ansible.builtin.import_tasks: validator/check_os.yml
 
-- name: 'INCLUDE => user processing'
-  ansible.builtin.include_tasks: processing/users.yml
-  vars:
-    user_name: "{{ user_item }}"
-  with_items:
-    - "{{ user_list.keys() }}"
-  loop_control:
-    loop_var: user_item
+- name: 'INCLUDE => user management tasks'
+  ansible.builtin.include_tasks: processing/main.yml
+  loop: "{{ user_list | dict2items }}"
