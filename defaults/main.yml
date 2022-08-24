@@ -3,7 +3,8 @@
 # All entries must be stored under a main dict key `user_list`, you could create multiples users in same time
 #
 # The key `groups` and `ssh_keys` is optional
-# `groups` and `ssh_keys` must be define as array
+# `groups` must be define as array
+# `ssh_keys` must be define as dict
 #
 # If you would delete user and his home directory, stay all vars filled, and change `state` key from `present` to `absent`
 #
@@ -13,26 +14,33 @@
 #  vfricou:
 #    comment: 'Vincent Fricou'
 #    home: '/home/vfricou'
-#    groups:
-#      - users
-#    shell: '/bin/bash'
+#    shell: '/usr/bin/bash'
+#    state: 'present'
 #    pass: '<your super password in plain text>'
 #    pass_type: 'plain'
+#    groups:
+#      - users
 #    ssh_keys:
-#      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBDm5ZCYzVCTP4+MBE9+921LXbj5rKLsWVUzqQjPoAp1 vfricou - Vincent FRICOU <vincent(at)fricouv(dot)eu>'
-#      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDaGXRU+lBEdNgOG+5K43GFUKTefJ83OelS0sw5ovLV+wbBZivo+KU3Dsbw9KBSG3YPo1sJPoptaRmJ/lJ2L7mPomvHOaAVDlyXRA2TNDiTcJB5rQbNXN2heIrYDpOIUynNOcrQgtzKsS2x9U5jSHhMfT+Gk8uXU2RdD/hpig1I46qsM57cgTq09e+xE0EGThejF0fcyISE2yFQxXShAKdcr6WY5PyMv7TqIZkZ+ljTNzIVIhIzAfLVrOwYyFncV+FvcKsDifbp0mvljffJJkRWvbkOpZzWvprUZRnPtKBpxHYHvqUWZb05ClWKcneAv9r8q6GE2EzYi0oDuyWhlq7F vfricou - Vincent Fricou <vincent(at)fricouv(dot)eu>'
-#    state: present
+#      key1:
+#        content: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBDm5ZCYzVCTP4+MBE9+921LXbj5rKLsWVUzqQjPoAp1 vfricou - Vincent FRICOU <vincent(at)fricouv(dot)eu>'
+#        opts: ''
+#        state: 'present'
 
 ## For encrypted password :
 #user_list:
 #  vfricou:
 #    comment: 'Vincent Fricou'
 #    home: '/home/vfricou'
-#    groups:
-#      - users
-#    shell: '/bin/bash'
+#    shell: '/usr/bin/bash'
+#    state: 'present'
 #    pass: '<your super password in encrypted format>'
 #    pass_type: 'encrypted'
+#    groups:
+#      - users
 #    ssh_keys:
-#      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBDm5ZCYzVCTP4+MBE9+921LXbj5rKLsWVUzqQjPoAp1 vfricou - Vincent FRICOU <vincent(at)fricouv(dot)eu>'
-#    state: present
+#      key1:
+#        content: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBDm5ZCYzVCTP4+MBE9+921LXbj5rKLsWVUzqQjPoAp1 vfricou - Vincent FRICOU <vincent(at)fricouv(dot)eu>'
+#        opts: ''
+#        state: 'present'
+
+
