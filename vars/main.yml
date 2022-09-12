@@ -1,0 +1,23 @@
+---
+# Supported OS definition
+supported_platforms:
+  - name: Debian
+    versions:
+      - 10
+      - 11
+  - name: Rocky
+    versions:
+      - 8
+  - name: AlmaLinux
+    versions:
+      - 8
+  - name: Ubuntu
+    versions:
+      - 18
+      - 20
+      - 22
+  - name: RedHat
+    versions:
+      - 8
+
+# Role variables

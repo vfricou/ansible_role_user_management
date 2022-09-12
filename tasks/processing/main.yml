@@ -10,7 +10,7 @@
     - grp is defined
     - item['value']['state'] == 'present'
 
-- name: 'import user creation plain password'
+- name: 'INCLUDE => USER_CREATION | plain password'
   ansible.builtin.import_tasks: user_creation.yml
   vars:
     user: "{{ item }}"
@@ -18,7 +18,7 @@
   when:
     - item['value']['pass_type'] == 'plain'
 
-- name: 'import user creation plain encrypted'
+- name: 'INCLUDE => USER_CREATION | encrypted password'
   ansible.builtin.include_tasks: user_creation.yml
   vars:
     user: "{{ item }}"
@@ -43,7 +43,7 @@
     state: absent
   when: item['value']['state'] == 'absent'
 
-- name: 'INCLUDE => authorized keys deployment'
+- name: 'INCLUDE => AUTHORIZED_KEYS | keys deployment'
   ansible.builtin.include_tasks: authorized_keys.yml
   vars:
     user: "{{ item.key }}"
