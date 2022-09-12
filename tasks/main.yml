@@ -1,6 +1,6 @@
 ---
 - name: 'import validator tasks'
-  ansible.builtin.import_tasks: validator/check_os.yml
+  ansible.builtin.import_tasks: validator/main.yml
 
 - name: 'INCLUDE => user management tasks'
   ansible.builtin.include_tasks: processing/main.yml
