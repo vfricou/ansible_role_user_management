@@ -1,5 +1,5 @@
 ---
-- name: 'processing | authorized_keys | deploy ssh authorized_keys for user {{ user }}'
+- name: 'Processing | Authorized_keys | Deploy ssh authorized_keys for user {{ user }}'
   ansible.posix.authorized_key:
     user: "{{ user }}"
     state: "{{ data.value.state }}"

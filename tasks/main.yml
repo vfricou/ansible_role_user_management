@@ -1,7 +1,7 @@
 ---
-- name: 'import validator tasks'
+- name: 'Import validator tasks'
   ansible.builtin.import_tasks: validator/main.yml
 
-- name: 'INCLUDE => user management tasks'
+- name: 'INCLUDE => User management tasks'
   ansible.builtin.include_tasks: processing/main.yml
   loop: "{{ user_list | dict2items }}"

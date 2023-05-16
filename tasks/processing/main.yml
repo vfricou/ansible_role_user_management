@@ -1,5 +1,5 @@
 ---
-- name: 'processing | ensure groups is present'
+- name: 'Processing | Ensure groups is present'
   ansible.builtin.group:
     name: "{{ grp }}"
     state: present
@@ -10,7 +10,7 @@
     - grp is defined
     - item['value']['state'] == 'present'
 
-- name: 'INCLUDE => USER_CREATION | plain password'
+- name: 'INCLUDE => USER_CREATION | Plain password'
   ansible.builtin.import_tasks: user_creation.yml
   vars:
     user: "{{ item }}"
@@ -18,7 +18,7 @@
   when:
     - item['value']['pass_type'] == 'plain'
 
-- name: 'INCLUDE => USER_CREATION | encrypted password'
+- name: 'INCLUDE => USER_CREATION | Encrypted password'
   ansible.builtin.include_tasks: user_creation.yml
   vars:
     user: "{{ item }}"
@@ -26,7 +26,7 @@
   when:
     - not item['value']['pass_type'] == 'plain'
 
-- name: 'processing | add user to defined groups'
+- name: 'Processing | Add user to defined groups'
   ansible.builtin.user:
     name: "{{ item['key'] }}"
     groups: "{{ grp }}"
@@ -37,13 +37,13 @@
     - item['value']['groups'] is defined
     - item['value']['state'] == 'present'
 
-- name: 'processing | users | remove home directory if user is removed'
+- name: 'Processing | Users | Remove home directory if user is removed'
   ansible.builtin.file:
     path: "{{ item['value']['home'] }}"
     state: absent
   when: item['value']['state'] == 'absent'
 
-- name: 'INCLUDE => AUTHORIZED_KEYS | keys deployment'
+- name: 'INCLUDE => AUTHORIZED_KEYS | Keys deployment'
   ansible.builtin.include_tasks: authorized_keys.yml
   vars:
     user: "{{ item.key }}"
