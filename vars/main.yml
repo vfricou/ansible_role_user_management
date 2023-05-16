@@ -22,5 +22,8 @@ supported_platforms:
     versions:
       - 8
       - 9
+  - name: CentOS
+    versions:
+      - 7
 
 # Role variables

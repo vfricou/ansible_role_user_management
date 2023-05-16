@@ -9,3 +9,11 @@
     state: "{{ user['value']['state'] }}"
     password: "{{ passwd }}"
     update_password: always
+
+- name: 'processing | user_creation | ensure home directory rights'
+  ansible.builtin.file:
+    path: "{{ user['value']['home'] }}"
+    owner: "{{ user.key }}"
+    group: "{{ user.key }}"
+    state: directory
+    recurse: yes
