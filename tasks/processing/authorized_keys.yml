@@ -1,5 +1,7 @@
 ---
 - name: 'Processing | Authorized_keys | Deploy ssh authorized_keys for user {{ user }}'
+  become: true
+  become_user: 'root'
   ansible.posix.authorized_key:
     user: "{{ user }}"
     state: "{{ data.value.state }}"

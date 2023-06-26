@@ -1,50 +1,55 @@
 ---
 - name: 'Processing | Ensure groups is present'
-  ansible.builtin.group:
-    name: "{{ grp }}"
-    state: present
+  become: true
+  become_user: 'root'
   loop: "{{ item['value']['groups'] | flatten(levels=1) }}"
   loop_control:
     loop_var: grp
   when:
     - grp is defined
     - item['value']['state'] == 'present'
+  ansible.builtin.group:
+    name: "{{ grp }}"
+    state: present
 
 - name: 'INCLUDE => USER_CREATION | Plain password'
-  ansible.builtin.import_tasks: user_creation.yml
   vars:
     user: "{{ item }}"
     passwd: "{{ item['value'].pass | password_hash('sha512') }}"
   when:
     - item['value']['pass_type'] == 'plain'
+  ansible.builtin.import_tasks: processing/user_creation.yml
 
 - name: 'INCLUDE => USER_CREATION | Encrypted password'
-  ansible.builtin.include_tasks: user_creation.yml
   vars:
     user: "{{ item }}"
     passwd: "{{ item['value'].pass }}"
   when:
     - not item['value']['pass_type'] == 'plain'
+  ansible.builtin.include_tasks: processing/user_creation.yml
 
 - name: 'Processing | Add user to defined groups'
-  ansible.builtin.user:
-    name: "{{ item['key'] }}"
-    groups: "{{ grp }}"
+  become: true
+  become_user: 'root'
   loop: "{{ item['value']['groups'] | flatten(levels=1) }}"
   loop_control:
     loop_var: grp
   when:
     - item['value']['groups'] is defined
     - item['value']['state'] == 'present'
+  ansible.builtin.user:
+    name: "{{ item['key'] }}"
+    groups: "{{ grp }}"
 
 - name: 'Processing | Users | Remove home directory if user is removed'
+  become: true
+  become_user: 'root'
+  when: item['value']['state'] == 'absent'
   ansible.builtin.file:
     path: "{{ item['value']['home'] }}"
     state: absent
-  when: item['value']['state'] == 'absent'
 
 - name: 'INCLUDE => AUTHORIZED_KEYS | Keys deployment'
-  ansible.builtin.include_tasks: authorized_keys.yml
   vars:
     user: "{{ item.key }}"
     data: "{{ key }}"
@@ -54,3 +59,5 @@
   when:
     - item['value']['ssh_keys'] is defined
     - item['value']['state'] == 'present'
+  ansible.builtin.include_tasks: processing/authorized_keys.yml
+

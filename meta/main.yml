@@ -4,23 +4,22 @@ galaxy_info:
   author: "Vincent FRICOU"
   namespace: "vfricou"
   description: 'Manage user on remote system'
-  license: MIT
-  min_ansible_version: 2.9
+  license: 'MIT'
+  min_ansible_version: '2.9'
   platforms:
-    - name: EL
+    - name: 'EL'
       versions:
-        - 7
-        - 8
-    - name: Debian
+        - '7'
+        - '8'
+        - '9'
+    - name: 'Debian'
       versions:
-        - buster
-        - bullseye
-    - name: Ubuntu
+        - 'buster'
+        - 'bullseye'
+        - 'bookworm'
+    - name: 'Ubuntu'
       versions:
-        - bionic
-        - focal
-        - impish
-    - name: Rocky
-      versions:
-        - 8
+        - 'bionic'
+        - 'focal'
+        - 'impish'
 dependencies: []

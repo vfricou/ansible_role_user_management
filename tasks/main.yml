@@ -3,5 +3,5 @@
   ansible.builtin.import_tasks: validator/main.yml
 
 - name: 'INCLUDE => User management tasks'
-  ansible.builtin.include_tasks: processing/main.yml
   loop: "{{ user_list | dict2items }}"
+  ansible.builtin.include_tasks: processing/main.yml

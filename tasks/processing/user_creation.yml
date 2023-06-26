@@ -1,5 +1,7 @@
 ---
 - name: 'Processing | User_creation | Manage user {{ user.key }}'
+  become: true
+  become_user: 'root'
   ansible.builtin.user:
     name: "{{ user.key }}"
     comment: "{{ user['value']['comment'] }}"
@@ -11,6 +13,8 @@
     update_password: always
 
 - name: 'Processing | User_creation | Ensure home directory rights'
+  become: true
+  become_user: 'root'
   ansible.builtin.file:
     path: "{{ user['value']['home'] }}"
     owner: "{{ user.key }}"
