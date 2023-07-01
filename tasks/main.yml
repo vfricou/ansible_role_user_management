@@ -4,4 +4,11 @@
 
 - name: 'INCLUDE => User management tasks'
   loop: "{{ user_list | dict2items }}"
-  ansible.builtin.include_tasks: processing/main.yml
+  tags:
+    - users
+  ansible.builtin.include_tasks:
+    file: processing/main.yml
+    apply:
+      tags:
+        - users
+
